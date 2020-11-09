@@ -3,26 +3,10 @@ import {Link, Route, Switch} from "react-router-dom";
 
 import Home from "./Home";
 import Covid from "./Covid";
+import Search from "./Search";
+import Login from "./Login";
 
 import './w3.css';
-
-const Search = () => (
-    <div>
-        <h2>Search</h2>
-    </div>
-);
-
-const Categories = () => (
-    <div>
-        <h2>Categories</h2>
-    </div>
-);
-
-const Login = () => (
-    <div>
-        <h2>Login</h2>
-    </div>
-);
 
 function App() {
     return (
@@ -75,7 +59,6 @@ function App() {
                     <Route exact path="/"><Home/></Route>
                     <Route path="/covid"><Covid/></Route>
                     <Route path="/search"><Search/></Route>
-                    <Route path="/categories"><Categories/></Route>
                     <Route path="/login"><Login/></Route>
                 </Switch>
             </div>
