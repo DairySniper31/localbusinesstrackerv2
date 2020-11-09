@@ -10,7 +10,7 @@ function Login() {
                 <h1 className="w3-text">Sign In</h1>
             </div>
             <div className="w3-display-middle">
-                <form className="w3-cell-middle w3-border w3-center">
+                <form className="w3-panel w3-border w3-center">
                     <input className="w3-input w3-border"
                            type={"email"}
                            id={"email"}
