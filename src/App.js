@@ -29,6 +29,7 @@ function App() {
           <Link to="/login">Login/Sign-up</Link>
         </div>
       </header>
+      <Route path="/"><Home /></Route>
     </div>
   );
 }
