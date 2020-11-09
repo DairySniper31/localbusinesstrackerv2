@@ -1,13 +1,9 @@
 import React from 'react';
 import { Link, Route, Switch} from "react-router-dom";
 
-import './w3.css';
+import Home from "./Home";
 
-const Home = () => (
-  <div>
-    <h2>Home</h2>
-  </div>
-);
+import './w3.css';
 
 const Covid = () => (
   <div>
