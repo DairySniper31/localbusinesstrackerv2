@@ -9,6 +9,30 @@ const Home = () => (
   </div>
 );
 
+const Covid = () => (
+  <div>
+    <h2>Covid</h2>
+  </div>
+);
+
+const Search = () => (
+  <div>
+    <h2>Search</h2>
+  </div>
+);
+
+const Categories = () => (
+  <div>
+    <h2>Categories</h2>
+  </div>
+);
+
+const Login = () => (
+  <div>
+    <h2>Login</h2>
+  </div>
+);
+
 function App() {
   return (
     <div className="w3-container">
@@ -29,7 +53,14 @@ function App() {
           <Link to="/login">Login/Sign-up</Link>
         </div>
       </header>
-      <Route path="/"><Home /></Route>
+
+      <Switch>
+        <Route exact path="/"><Home /></Route>
+        <Route path="/covid"><Covid /></Route>
+        <Route path="/search"><Search /></Route>
+        <Route path="/categories"><Categories /></Route>
+        <Route path="/login"><Login /></Route>
+      </Switch>
     </div>
   );
 }
