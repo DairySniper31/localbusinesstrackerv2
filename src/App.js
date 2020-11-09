@@ -2,14 +2,9 @@ import React from 'react';
 import {Link, Route, Switch} from "react-router-dom";
 
 import Home from "./Home";
+import Covid from "./Covid";
 
 import './w3.css';
-
-const Covid = () => (
-    <div>
-        <h2>Covid</h2>
-    </div>
-);
 
 const Search = () => (
     <div>
