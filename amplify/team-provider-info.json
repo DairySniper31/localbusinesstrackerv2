@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-localbusinesstracker-dev-22742-authRole",
+      "UnauthRoleArn": "arn:aws:iam::711108276231:role/amplify-localbusinesstracker-dev-22742-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::711108276231:role/amplify-localbusinesstracker-dev-22742-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-localbusinesstracker-dev-22742-deployment",
+      "UnauthRoleName": "amplify-localbusinesstracker-dev-22742-unauthRole",
+      "StackName": "amplify-localbusinesstracker-dev-22742",
+      "StackId": "arn:aws:cloudformation:us-east-2:711108276231:stack/amplify-localbusinesstracker-dev-22742/38e6a0a0-2326-11eb-95c8-0a2205549386",
+      "AmplifyAppId": "d25np0lj9k9vdu"
+    }
+  }
+}
