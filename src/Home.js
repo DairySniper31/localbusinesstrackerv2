@@ -1,8 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 
 import "./w3.css";
 
 function Home() {
+	const[query, setQuery] = useState('');
+
 	return (
 		<div>
 			<div className='w3-panel w3-center'>
