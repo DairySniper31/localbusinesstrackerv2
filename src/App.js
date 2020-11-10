@@ -6,6 +6,8 @@ import Covid from "./Covid";
 import Search from "./Search";
 import Login from "./Login";
 import Register from "./Register";
+import Profile from "./Profile";
+import Business from "./Business";
 
 import './w3.css';
 
@@ -62,6 +64,8 @@ function App() {
                     <Route path="/search"><Search/></Route>
                     <Route path="/login"><Login/></Route>
                     <Route path="/register"><Register/></Route>
+                    <Route path="/profile"><Profile/></Route>
+                    <Route path="/business"><Business/></Route>
                 </Switch>
             </div>
         </div>
