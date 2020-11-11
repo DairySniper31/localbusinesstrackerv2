@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# Local Business Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To access homepage: https://master.d25np0lj9k9vdu.amplifyapp.com/
 
-## Available Scripts
+Team Status report: https://docs.google.com/document/d/1f9iIOaUCUoaaGe2l5fE8Ka1WgHihjQRaT_qy1j0Hp08/edit?usp=sharing
 
-In the project directory, you can run:
+Hogwarts Hackers: Emily Crilley Jacquelyn Leung Kobe Oley Zuri Shaw
 
-### `yarn start`
+Local Business tracker showcases businesses that are in the user's current area. The application will highlight people of color owned businesses and businesses that were hurt during Covid-19, using categories such as grocery, entertainment, clothing, and services. 
+Users will be able to employ our minimalist application to search their local area and give ratings on how well the establishment adheres to Covid-19 practices. 
+Business owners will be able to list their establishments and address customer ratings.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Features:
+So far our beta allows users to login/sign up and search for a business. While the possible search parameters are currently limited, users are allowed to search for a business and view the results of there search. The review feature is also available for users to test. In our beta users will be able to type a review about a business they find from 
+their search.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Defects:
+Since this is only a beta there are numerous features that are not fully implememted. The catagory buttons are currently limited so using the catagories may not be an option.
+While we do have a covid tab at the top of the page, the covid page is currently not upload and therefore does not work. The catagories button does not work as well, so while it appears at the top of the page users will be unable to view the catagories. Users can sign up and login to our application however, the name of the user will not be displayed.
+Instead a placeholder name "user123" will be displayed instead. Finally, while a user can type in a reivew for a business the submit button does not work so they will be unable to post it.
 
-### `yarn test`
+-Category button does not work
+-Sign up login only goes to user123
+-Styling on the pages is minimal and awkward
+-Submit review does not work
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Create with React and WebSocket
 
-### `yarn build`
+Recommended IDE: Webstorm 2020
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+To run application:
+Go to terminal and cd into the frontend repository. Then run "npm install prop-types" This should create the node modules library root in your frontend repository.
+You can then access your IDE and navigate to the frontend and backend package.json files. There you will find scripts that you can then run. The working application will then be hosted on localhost:3000.
