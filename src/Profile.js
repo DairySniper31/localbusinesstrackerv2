@@ -7,7 +7,7 @@ import PlaceholderImg from "./placeholder.png";
 import PlaceholderRating from "./rating5.png";
 
 function Profile() {
-
+    console.log(sessionStorage.getItem('id'))
     return (
         <div className="w3-row">
             <div className="w3-third">

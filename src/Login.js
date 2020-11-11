@@ -1,27 +1,57 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link, Redirect} from "react-router-dom";
 
 import "./w3.css";
+
+import {listUsers} from "./graphql/queries";
+import {API} from "aws-amplify";
 
 function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [users, setUsers] = useState([]);
     const [error, setError] = useState('');
     const [login, setLogin] = useState(false);
 
     function loginUser() {
-        if (email === 'User123@rit.edu' && password === 'admin'){
+        if (!email || !password) {
+            setError('Email and password must be given')
+        }
+        else if (!userExists()) {
+            setError('This email is not assigned to any user.\nUse a different email or create a user');
+        }
+        else if (!findUser()) {
+            setError('This password to the email is incorrect. Try again');
+        }
+        else {
+            sessionStorage.setItem('id', getID())
             setLogin(true);
-            setError('');
         }
-        else{
-            setLogin(false);
-            setError('The email must be User123@rit.edu and the password must be admin')
-        }
-        setEmail('');
-        setPassword('');
     }
+
+    function getID() {
+        const existingUsers = users.filter(user => (user.email === email && user.password === password))
+        return existingUsers[0].id
+    }
+
+    function findUser() {
+        const existingUsers = users.filter(user => (user.email === email && user.password === password))
+        return existingUsers.length !== 0;
+    }
+    function userExists() {
+        const existingUsers = users.filter(user => user.email === email)
+        return existingUsers.length !== 0;
+    }
+
+    async function fetchUsers() {
+        const apiData = await API.graphql({query: listUsers});
+        setUsers(apiData.data.listUsers.items);
+    }
+
+    useEffect(() => {
+        fetchUsers()
+    }, [])
 
     if (login){
         return (<Redirect to={"/profile"}/>)

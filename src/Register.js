@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import "./w3.css";
 
 import {API} from 'aws-amplify';
 
 import {listUsers} from "./graphql/queries";
-import {createUser as createUserMutation, deleteUser as deleteUserMutation} from "./graphql/mutations";
+import {createUser as createUserMutation} from "./graphql/mutations";
 
 
 function Register() {
@@ -19,8 +19,8 @@ function Register() {
     });
     const [registered, setRegistered] = useState({
         success: false,
-        email: 'tester@gmail',
-        password: 'tester'
+        email: '',
+        password: ''
     });
     const [users, setUsers] = useState([]);
     const [confPassword, setConfPassword] = useState('');
