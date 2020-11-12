@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Link} from "react-router-dom";
 
 import "./w3.css";
@@ -6,40 +6,19 @@ import "./w3.css";
 import PlaceholderImg from "./placeholder.png";
 import PlaceholderRating from "./rating5.png";
 
-import {API} from 'aws-amplify';
-import {getUser} from "./graphql/queries";
-
-function Profile() {
-    const [currentUser, setCurrentUser] = useState({
-        fname: '',
-        lname: '',
-        email: '',
-        password: '',
-        bio: ''
-    });
-
-    async function fetchUsers() {
-        console.log(sessionStorage.getItem('id') + '')
-        const userData = await API.graphql({query: getUser, variables: {id: sessionStorage.getItem('id')}})
-        console.log(userData.data.getUser);
-        setCurrentUser(userData.data.getUser)
-    }
-
-    useEffect(() => {
-        fetchUsers()
-    }, [])
-
+function User() {
     return (
         <div className="w3-row">
             <div className="w3-third">
                 <h1 className="w3-container w3-text">
-                    {currentUser.fname} {currentUser.lname}
+                    User123
                 </h1>
                 <img src={PlaceholderImg} className="w3-image w3-container" alt={'User profile pic'}/>
                 <div className="w3-panel w3-text w3-light-gray">
                     <h4>User Info:</h4>
                     <p>Total Reviews: 4</p>
-                    <p>User Bio: {currentUser.bio}</p>
+                    <p>User Bio: Eat Pray Love!</p>
+                    <p>Testing out all of the ice cream stores in Rochester</p>
                 </div>
 
             </div>
@@ -92,4 +71,4 @@ function Review(props) {
     )
 }
 
-export default Profile;
+export default User;

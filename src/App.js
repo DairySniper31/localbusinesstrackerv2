@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link, Route, Switch} from "react-router-dom";
 
 import Home from "./Home";
@@ -12,6 +12,21 @@ import Business from "./Business";
 import './w3.css';
 
 function App() {
+    const [loginTab, setLoginTab] = useState('Login/Sign-up')
+
+    async function fetchInfo() {
+        console.log(sessionStorage.getItem('id') + '')
+        if (sessionStorage.getItem('id') != null && sessionStorage.getItem('id') !== ''){
+            setLoginTab('My Profile')
+        }
+        else {
+            setLoginTab('Login/Sign-up')
+        }
+    }
+
+    useEffect(() => {
+        fetchInfo()
+    }, [])
     return (
         <div>
             <header className="w3-bar w3-large w3-white">
@@ -54,7 +69,7 @@ function App() {
                 <Link className="w3-bar-item w3-button w3-mobile"
                       to="/login"
                       style={{textDecoration: 'none', width: '20%'}}>
-                    Login/Sign-up
+                    {loginTab}
                 </Link>
             </header>
             <div className="w3-container">

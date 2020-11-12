@@ -7,7 +7,6 @@ import {listUsers} from "./graphql/queries";
 import {API} from "aws-amplify";
 
 function Login() {
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [users, setUsers] = useState([]);
@@ -25,6 +24,7 @@ function Login() {
             setError('This password to the email is incorrect. Try again');
         }
         else {
+            console.log('Success logging')
             sessionStorage.setItem('id', getID())
             setLogin(true);
         }
@@ -47,13 +47,14 @@ function Login() {
     async function fetchUsers() {
         const apiData = await API.graphql({query: listUsers});
         setUsers(apiData.data.listUsers.items);
+        users.map(user => (console.log(user)))
     }
 
     useEffect(() => {
         fetchUsers()
     }, [])
 
-    if (login){
+    if (login || (sessionStorage.getItem('id') != null && sessionStorage.getItem('id') !== '')){
         return (<Redirect to={"/profile"}/>)
     }
 
