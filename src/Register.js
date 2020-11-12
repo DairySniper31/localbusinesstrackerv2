@@ -1,3 +1,11 @@
+/*
+Registration Page made in React
+Created by Kobe Oley
+
+Registration creates new users that are sent to the AWS database
+ */
+
+//Imports
 import React, {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
@@ -8,8 +16,13 @@ import {API} from 'aws-amplify';
 import {listUsers} from "./graphql/queries";
 import {createUser as createUserMutation} from "./graphql/mutations";
 
-
+/*
+Main React Register function
+Contains functions essential to the registration of a user
+Returns the html block for the page
+ */
 function Register() {
+    //Variables used throughout the functions
     const [userFormData, setUserFormData] = useState({
         fname: '',
         lname: '',
@@ -26,41 +39,59 @@ function Register() {
     const [confPassword, setConfPassword] = useState('');
     const [error, setError] = useState('');
 
+    //Checks if the user exists in the current user database
+    //Checks by if their email is found in one of the users, returns true if so
     function userExists(){
         const existingUsers = users.filter(user => user.email === userFormData.email)
         return existingUsers.length !== 0;
     }
 
+    //Updates the users variable from the API
     async function fetchUsers() {
         const apiData = await API.graphql({query: listUsers});
         setUsers(apiData.data.listUsers.items);
     }
 
+    //Use effect function calls the fetchUsers and updates the users
     useEffect(() => {
         fetchUsers();
     }, []);
 
+    /*
+    Creates a User in the database and API
+    Checks whether the user is valid, sets the error if not
+    If valid, creates the user using the form data
+    */
     async function createUser() {
+        //Checks whether all the form areas have been filled out
         if (!userFormData.fname || !userFormData.lname || !userFormData.email || !userFormData.password || !confPassword){
             setError('Fill out all parts of the form please!')
         }
+        //Checks whether the fist and last name is alphanumeric
         else if (!userFormData.fname.match(/^[0-9a-zA-Z]+$/) || !userFormData.lname.match(/^[0-9a-zA-Z]+$/)){
             setError('The first and last name must be alphanumeric')
         }
+        //Checks whether the password and confirmation password was filled out
         else if (userFormData.password !== confPassword) {
             setError('The passwords do not match. Make sure to type the same password')
         }
+        //Checks whether the users email is already being used in the database
         else if (userExists()) {
             setError('This email is already exists. Use a different email or login to this existing email')
         }
+        //Creates the user in the API and database
         else{
+            //Uses the createUserMutation to create the user using userFormData
             await API.graphql({query: createUserMutation, variables: {input: userFormData}})
+            //Adds the formData to the users
             setUsers([...users, userFormData]);
+            //Sets the registered variables to be transferred to the confirmation page
             setRegistered({
                success: true,
                email: userFormData.email,
                password: userFormData.password
             });
+            //Resets the userFormData
             setUserFormData({
                 fname: '',
                 lname: '',
@@ -72,11 +103,13 @@ function Register() {
         }
     }
 
+    //Redirects the page if there was a successful registration
+    //Redirects to the confirmation page
     if (registered.success) {
         return (<Confirmation email={registered.email} password={registered.password}/>)
     }
 
-
+    //HTML Block
     return (
         <div>
             <div className="w3-panel w3-center">
@@ -147,6 +180,10 @@ function Register() {
     );
 }
 
+/*
+Confirmation Page
+Uses the props passed in, aka email and password, to help create the HTML Block
+ */
 function Confirmation(props) {
     return(
         <div className="w3-container">

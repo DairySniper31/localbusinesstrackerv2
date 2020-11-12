@@ -4,5 +4,23 @@ type User @model {
   lname: String!
   email: String!
   password: String!
+  image: String
   bio: String
+}
+type Business @model {
+  id: ID!
+  name: String!
+  address: String!
+  website: String!
+  phone: String!
+  hourStart: Int!
+  hourEnd: Int!
+  regulations: String
+}
+type Review @model {
+  id: ID!
+  businessID: String!
+  userID: String!
+  rating: Int!
+  description: String
 }

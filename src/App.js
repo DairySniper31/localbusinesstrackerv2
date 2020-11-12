@@ -15,8 +15,8 @@ function App() {
     const [loginTab, setLoginTab] = useState('Login/Sign-up')
 
     async function fetchInfo() {
-        console.log(sessionStorage.getItem('id') + '')
-        if (sessionStorage.getItem('id') != null && sessionStorage.getItem('id') !== ''){
+        console.log(sessionStorage.getItem('id'))
+        if (sessionStorage.getItem('id') != null && sessionStorage.getItem('id') !== 'null'){
             setLoginTab('My Profile')
         }
         else {
