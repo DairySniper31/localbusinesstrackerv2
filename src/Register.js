@@ -16,6 +16,8 @@ import {API} from 'aws-amplify';
 import {listUsers} from "./graphql/queries";
 import {createUser as createUserMutation} from "./graphql/mutations";
 
+const avatarURL = 'https://avatars.abstractapi.com/v1/?api_key=0d635c585cf94fb893f4497185d4486a&image_size=512&name=';
+
 /*
 Main React Register function
 Contains functions essential to the registration of a user
@@ -28,7 +30,8 @@ function Register() {
         lname: '',
         email: '',
         password: '',
-        bio: ''
+        bio: '',
+        image: avatarURL
     });
     const [registered, setRegistered] = useState({
         success: false,
@@ -81,6 +84,7 @@ function Register() {
         }
         //Creates the user in the API and database
         else{
+            console.log(userFormData.image)
             //Uses the createUserMutation to create the user using userFormData
             await API.graphql({query: createUserMutation, variables: {input: userFormData}})
             //Adds the formData to the users
@@ -97,7 +101,8 @@ function Register() {
                 lname: '',
                 email: '',
                 password: '',
-                bio: ''
+                bio: '',
+                image: avatarURL
             });
             setConfPassword('');
         }
@@ -120,6 +125,7 @@ function Register() {
                       action={"."}
                       onSubmit={event => {
                           event.preventDefault()
+
                           createUser()
                       }}>
                     <div className="w3-bar w3-padding-16">
@@ -128,14 +134,20 @@ function Register() {
                                id={"fname"}
                                placeholder={"First Name"}
                                value={userFormData.fname}
-                               onChange={event => setUserFormData({...userFormData, fname: event.target.value})}
+                               onChange={event => setUserFormData({...userFormData,
+                                   fname: event.target.value,
+                                   image: avatarURL + event.target.value + "+" + userFormData.lname
+                               })}
                         />
                         <input className="w3-bar-item w3-input w3-border"
                                type={"text"}
                                id={"lname"}
                                placeholder={"Last Name"}
                                value={userFormData.lname}
-                               onChange={event => setUserFormData({...userFormData, lname: event.target.value})}
+                               onChange={event => setUserFormData({...userFormData,
+                                   lname: event.target.value,
+                                   image: avatarURL + userFormData.fname + "+" + event.target.value
+                               })}
                         />
                     </div>
                     <input className="w3-input w3-border"

@@ -68,6 +68,7 @@ export const createBusiness = /* GraphQL */ `
       phone
       hourStart
       hourEnd
+      image
       regulations
       createdAt
       updatedAt
@@ -87,6 +88,7 @@ export const updateBusiness = /* GraphQL */ `
       phone
       hourStart
       hourEnd
+      image
       regulations
       createdAt
       updatedAt
@@ -106,6 +108,7 @@ export const deleteBusiness = /* GraphQL */ `
       phone
       hourStart
       hourEnd
+      image
       regulations
       createdAt
       updatedAt

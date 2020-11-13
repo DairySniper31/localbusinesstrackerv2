@@ -15,8 +15,8 @@ import "./w3.css";
 import PlaceholderImg from "./placeholder.png";
 import PlaceholderRating from "./rating5.png";
 
-import {API} from 'aws-amplify';
-import {getUser} from "./graphql/queries";
+import {API, Storage} from 'aws-amplify';
+import {getUser, listUsers} from "./graphql/queries";
 import {updateUser} from "./graphql/mutations";
 
 function Profile() {
@@ -25,7 +25,8 @@ function Profile() {
         lname: '',
         email: '',
         password: '',
-        bio: ''
+        bio: '',
+        image: PlaceholderImg
     });
 
     function logout() {
@@ -52,7 +53,7 @@ function Profile() {
                 <h1 className="w3-container w3-text">
                     {currentUser.fname} {currentUser.lname}
                 </h1>
-                <img src={PlaceholderImg} className="w3-image w3-container" alt={'User profile pic'}/>
+                <img src={currentUser.image} className="w3-panel w3-image" alt={"User Avatar"}/>
                 <div className="w3-panel w3-text w3-light-gray">
                     <h4>User Info:</h4>
                     <p>Total Reviews: 4</p>
