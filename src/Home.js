@@ -17,9 +17,13 @@ function Home() {
 		hourStart: 0,
 		hourEnd: 0,
 		category: 'Other',
-		image: './placeholder.png',
+		image: 'https://picsum.photos/500',
 		regulations: ''
 	});
+
+	function getRandomInt() {
+		return Math.floor(Math.random() * Math.floor(1085))
+	}
 
 	function submitSearch() {
 		if (!query) {
@@ -60,7 +64,8 @@ function Home() {
 						   value={businessData.name}
 						   onChange={event => setBusinessData({
 							   ...businessData,
-							   name: event.target.value
+							   name: event.target.value,
+							   image: `https://picsum.photos/id/${getRandomInt()}/500`
 						   })}
 					/>
 					<input className="w3-input w3-border"

@@ -41,7 +41,7 @@ function App() {
                     COVID-19 Information
                 </Link>
                 <Link className="w3-bar-item w3-button w3-mobile"
-                      to="/search"
+                      to="/search/ "
                       style={{textDecoration: 'none', width: '20%'}}>
                     Search
                 </Link>

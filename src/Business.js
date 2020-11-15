@@ -1,5 +1,7 @@
-import React from "react";
-import {Switch, Route, Link} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useParams, Route, Link, useRouteMatch} from "react-router-dom";
+
+import {API} from 'aws-amplify';
 
 import "./w3.css";
 
@@ -7,34 +9,57 @@ import PlaceholderImg from "./placeholder.png";
 import PlaceholderStar from "./star5.png";
 import PlaceholderRating from "./rating5.png";
 
+import {getBusiness, listBusinesss, listReviews} from "./graphql/queries";
+
 function Business() {
+    const {url} = useRouteMatch();
     return (
-        <Switch>
-            <Route path="/business/sundaes">
-                <Sundaes />
+        <div>
+            <Route path={`${url}/:id`}>
+                <BusinessPage/>
             </Route>
-            <Route path="/business/gales">
-                <Gales/>
-            </Route>
-            <Route path="/business/smiling">
-                <Smiling/>
-            </Route>
-        </Switch>
+        </div>
     );
 }
 
-function Sundaes() {
-    var reviews = [{
-        name: 'User123',
-        text: 'This local has the best homemade ice cream and very nice workers.' +
-            '10/10 would recommend checking it out',
-        rate: 5
+function BusinessPage() {
+    const {id} = useParams();
+    const [businessData, setBusinessData] = useState({
+        id: '',
+        address: '',
+        category: '',
+        hourEnd: 0,
+        hourStart: 0,
+        image: '',
+        name: '',
+        phone: '',
+        regulations: '',
+        website: ''
+    });
+    const [reviews, setReviews] = useState([]);
+
+    async function fetchResources() {
+        const reviewData = await API.graphql({query: listReviews});
+        if (reviewData.data) {
+            const allReviews = reviewData.data.listReviews.items
+            setReviews(allReviews.filter(review => review.businessID === id))
+        }
+
+        const businessAPI = await API.graphql({query: getBusiness, variables: {id: id}})
+        console.log(businessAPI.data)
+        if (businessAPI.data) {
+            setBusinessData(businessAPI.data.getBusiness);
+        }
     }
-    ]
+
+    useEffect(() => {
+        fetchResources();
+    }, [])
+
     return (
         <div className="w3-row">
             <div className="w3-quarter">
-                <img src={PlaceholderImg} className="w3-image w3-container" alt={'Sundae logo'}/>
+                <img src={businessData.image} className="w3-image w3-panel" alt={'Business logo'}/>
                 <div className="w3-panel w3-text">
                     <h4>Current Rating</h4>
                     <img src={PlaceholderStar} className="w3-image w3-container" alt={'Four Star Rating'}/>
@@ -43,41 +68,31 @@ function Sundaes() {
             </div>
             <div className="w3-half w3-text w3-center">
                 <h1>
-                    Sundaes on Sundays
+                    {businessData.name}
                 </h1><br/>
                 <h4>
-                    123 Sunday Street, Rochester NY 14623
+                    {businessData.address}
                 </h4><br/>
                 <p>
-                    Open Weekdays and Weekends: 8am-8pm
+                    Open Weekdays and Weekends: {businessData.hourStart} - {businessData.hourEnd}
                 </p>
                 <p>
-                    sundaesonsunday.com  (585) 123-4567
+                    {businessData.website} {businessData.phone}
                 </p><br/>
                 <h2>
                     COVID-19 Regulations:
                 </h2>
                 <p>
-                    We ask that you always wear a mask unless eating ice cream!
-                </p>
-                <p>
-                    Follow social distancing signs
-                </p>
-                <p>
-                    Limited Capacity Inside: 15
-                </p>
-                <p>
-                    Go to sundaesonsunday.com for more protocols!
+                    {businessData.regulations}
                 </p>
             </div>
             <div className="w3-quarter">
                 <h2 className="w3-container w3-text">
                     Reviews
                 </h2>
-                <Review ratesrc={PlaceholderRating} ratetext={reviews[0].text}/>
             </div>
         </div>
-    )
+    );
 }
 
 function Review(props) {
@@ -142,118 +157,6 @@ function Rating() {
                    value={"Submit Review"}
             />
         </form>
-    )
-}
-
-function Gales() {
-    const reviews = [{
-        name: 'User123',
-        text: "Of all the local shops, I wouldn't make this one my first choice. It used to be a lot better!",
-        rate: 2
-    }
-    ];
-    return (
-        <div className="w3-row">
-            <div className="w3-quarter">
-                <img src={PlaceholderImg} className="w3-image w3-container" alt={"Gale's Logo"}/>
-                <div className="w3-panel w3-text">
-                    <h4>Current Rating</h4>
-                    <img src={PlaceholderStar} className="w3-image w3-container" alt={'Current Rating'}/>
-                </div>
-                <Rating/>
-            </div>
-            <div className="w3-half w3-text w3-center">
-                <h1>
-                    Gale’s Ice Cream
-                </h1><br/>
-                <h4>
-                    12 Lonely Drive, Rochester NY 14623
-                </h4><br/>
-                <p>
-                    Open Weekdays and Weekends: 8am-5pm
-                </p>
-                <p>
-                    (585) 674-4853
-                </p><br/>
-                <h2>
-                    COVID-19 Regulations:
-                </h2>
-                <p>
-                    Follow NY State social distancing guidelines
-                </p>
-                <p>
-                    Please always have a mask
-                </p>
-                <p>
-                    To-go orders only
-                </p>
-                <p>
-                    Call for more protocols!
-                </p>
-            </div>
-            <div className="w3-quarter">
-                <h2 className="w3-container w3-text">
-                    Reviews
-                </h2>
-                <Review ratesrc={PlaceholderRating} ratetext={reviews[0].text}/>
-            </div>
-        </div>
-    )
-}
-
-function Smiling() {
-    var reviews = [{
-        name: 'User123',
-        text: "This local shop has okay homemade ice cream, but the workers are kind!",
-        rate: 3
-    }
-    ]
-    return (
-        <div className="w3-row">
-            <div className="w3-quarter">
-                <img src={PlaceholderImg} className="w3-image w3-container" alt={'Smiling logo'}/>
-                <div className="w3-panel w3-text">
-                    <h4>Current Rating</h4>
-                    <img src={PlaceholderStar} className="w3-image w3-container" alt={'Three star rating'}/>
-                </div>
-                <Rating/>
-            </div>
-            <div className="w3-half w3-text w3-center">
-                <h1>
-                    The Smiling Scoop
-                </h1><br/>
-                <h4>
-                    321 Business Road, Rochester NY 14623
-                </h4><br/>
-                <p>
-                    Open Weekdays and Weekends: 11am-8pm
-                </p>
-                <p>
-                    Smilingscoop.net (585) 987-6543
-                </p><br/>
-                <h2>
-                    COVID-19 Regulations:
-                </h2>
-                <p>
-                    Masks needed when at the ordering area!
-                </p>
-                <p>
-                    Outside areas only!
-                </p>
-                <p>
-                    Follow NY State social distancing guidelines
-                </p>
-                <p>
-                    Go to Smilingscoop.com for more protocols!
-                </p>
-            </div>
-            <div className="w3-quarter">
-                <h2 className="w3-container w3-text">
-                    Reviews
-                </h2>
-                <Review ratesrc={PlaceholderRating} ratetext={reviews[0].text}/>
-            </div>
-        </div>
     )
 }
 

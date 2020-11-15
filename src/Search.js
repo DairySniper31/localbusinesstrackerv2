@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link, Route, useParams, useRouteMatch } from "react-router-dom";
 
 import GoogleMapReact from 'google-map-react';
+
+import {API} from 'aws-amplify';
 
 import "./w3.css";
 
 import PlaceholderImg from "./placeholder.png";
 import PlaceholderStar from "./star5.png";
+import PlaceholderRating from "./rating5.png";
+
+import {listBusinesss} from "./graphql/queries";
 
 function Search() {
     const {url} = useRouteMatch();
@@ -16,7 +21,7 @@ function Search() {
                 <h1 className="w3-text">Search</h1>
             </div>
             <div className="w3-row">
-                <div className="w3-half w3-panel">
+                <div className="w3-half">
                     <Route path={`${url}/:query`}>
                         <SearchList />
                     </Route>
@@ -31,37 +36,48 @@ function Search() {
 
 function SearchList() {
     const {query} = useParams();
+    const [businesses, setBusinesses] = useState([]);
+
+    useEffect(() => {
+        fetchBusinesses();
+    }, [])
+
+    async function fetchBusinesses() {
+        const apiData = await API.graphql({query: listBusinesss});
+        setBusinesses(apiData.data.listBusinesss.items);
+    }
 
     return (
         <div>
-            <h3>{query}</h3>
+            <h3 className='w3-text w3-panel'>Search Results for: {query}</h3>
+            <div className="w3-bar-block">
+                {
+                    businesses.map(business => (
+                        <div key={business.name} className='w3-bar-item'>
+                            <div className='w3-twothird w3-border-top w3-border-left w3-border-black'>
+                                <h3 className='w3-text w3-container'>
+                                    {business.name}
+                                </h3>
+                                <img src={PlaceholderStar} className='w3-image' alt={'Overall rating of the business'}/>
+                                <p className='w3-text w3-container'>
+                                    Hours: {business.hourStart} - {business.hourEnd}
+                                </p>
+                                <p className='w3-text w3-container'>
+                                    {business.address}
+                                </p>
+                            </div>
+                            <div className='w3-third w3-border-top w3-border-right w3-border-black'>
+                                <Link to={`/business/${business.id}`}>
+                                    <img src={business.image} className='w3-image' alt={'Business Logo'}/>
+                                </Link>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
         </div>
     );
 
-}
-
-function Business(props) {
-    return(
-        <div className='w3-bar-item'>
-            <div className='w3-threequarter'>
-                <h3 className='w3-text'>
-                    {props.name}
-                </h3>
-                <img src={props.ratesrc} className='w3-image' alt={'Overall rating of the business'}/>
-                <p className='w3-text'>
-                    {props.hours}
-                </p>
-                <p className='w3-text'>
-                    {props.address}
-                </p>
-            </div>
-            <div className='w3-quarter'>
-                <Link to={props.url} >
-                    <img src={props.imgsrc} className='w3-image' alt={'Business Logo'}/>
-                </Link>
-            </div>
-        </div>
-    )
 }
 
 function SimpleMap() {
