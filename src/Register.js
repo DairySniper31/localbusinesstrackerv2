@@ -125,7 +125,6 @@ function Register() {
                       action={"."}
                       onSubmit={event => {
                           event.preventDefault()
-
                           createUser()
                       }}>
                     <div className="w3-bar w3-padding-16">
@@ -203,7 +202,9 @@ function Confirmation(props) {
             <h2 className="w3-container w3-text">Your registration has been confirmed</h2>
             <p className="w3-container w3-text">Your can now login at:<br/>Email: {props.email}<br/>Password: {props.password}</p>
             <div className="w3-button w3-border w3-blue">
-                <Link to="/login">
+                <Link to="/login"
+                      style={{textDecoration: 'none'}}
+                >
                     <label>Back to Login</label>
                 </Link>
             </div>

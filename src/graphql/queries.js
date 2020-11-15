@@ -48,6 +48,7 @@ export const getBusiness = /* GraphQL */ `
       phone
       hourStart
       hourEnd
+      category
       image
       regulations
       createdAt
@@ -70,6 +71,7 @@ export const listBusinesss = /* GraphQL */ `
         phone
         hourStart
         hourEnd
+        category
         image
         regulations
         createdAt

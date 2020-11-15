@@ -15,6 +15,7 @@ type Business @model {
   phone: String!
   hourStart: Int!
   hourEnd: Int!
+  category: String!
   image:String
   regulations: String
 }

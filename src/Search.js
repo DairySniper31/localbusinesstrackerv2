@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import { Link, Route, useParams, useRouteMatch } from "react-router-dom";
 
 import GoogleMapReact from 'google-map-react';
 
@@ -9,37 +9,17 @@ import PlaceholderImg from "./placeholder.png";
 import PlaceholderStar from "./star5.png";
 
 function Search() {
+    const {url} = useRouteMatch();
     return (
         <div>
             <div className="w3-panel w3-center">
                 <h1 className="w3-text">Search</h1>
             </div>
             <div className="w3-row">
-                <div className="w3-half w3-panel w3-border">
-                    <h2 className="w3-text">Search Results: Ice Cream</h2>
-                    <div className='w3-bar-block'>
-                        <Business name={'Sundaes On Sundays'}
-                                  imgsrc={PlaceholderImg}
-                                  ratesrc={PlaceholderStar}
-                                  hours={'Hours: 8am-8pm'}
-                                  address={'123 Sunday Street, Rochester NY 14623'}
-                                  url={'/business/sundaes'}
-                        />
-                        <Business name={'The Smiling Scoop'}
-                                  imgsrc={PlaceholderImg}
-                                  ratesrc={PlaceholderStar}
-                                  hours={'Hours: 11am-8pm'}
-                                  address={'321 Business Road, Rochester NY 14623'}
-                                  url={'/business/smiling'}
-                        />
-                        <Business name={"Gale's Ice Cream"}
-                                  imgsrc={PlaceholderImg}
-                                  ratesrc={PlaceholderStar}
-                                  hours={'Hours: 8am-5pm'}
-                                  address={'12 Lonely Drive, Rochester NY 14623'}
-                                  url={'/business/gales'}
-                        />
-                    </div>
+                <div className="w3-half w3-panel">
+                    <Route path={`${url}/:query`}>
+                        <SearchList />
+                    </Route>
                 </div>
                 <div className="w3-half w3-panel w3-img">
                     <SimpleMap/>
@@ -47,6 +27,17 @@ function Search() {
             </div>
         </div>
     );
+}
+
+function SearchList() {
+    const {query} = useParams();
+
+    return (
+        <div>
+            <h3>{query}</h3>
+        </div>
+    );
+
 }
 
 function Business(props) {
