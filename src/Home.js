@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import {Redirect} from "react-router-dom";
+import {API} from 'aws-amplify';
+import {createBusiness as createBusinessMutation} from "./graphql/mutations";
 
 import "./w3.css";
 
@@ -7,6 +9,17 @@ function Home() {
 	const [query, setQuery] = useState('');
 	const [search, setSearch] = useState(false);
 	const [error, setError] = useState('');
+	const [businessData, setBusinessData] = useState({
+		name: '',
+		address: '',
+		website: '',
+		phone: '',
+		hourStart: 0,
+		hourEnd: 0,
+		category: 'Other',
+		image: './placeholder.png',
+		regulations: ''
+	});
 
 	function submitSearch() {
 		if (!query) {
@@ -20,6 +33,12 @@ function Home() {
 		}
 	}
 
+	async function createBusiness() {
+		console.log(businessData)
+
+		await API.graphql({query: createBusinessMutation, variables: {input: businessData}})
+	}
+
 	if (search) {
 		return (
 			<Redirect to={"/search/" + query} />
@@ -28,6 +47,90 @@ function Home() {
 
 	return (
 		<div>
+			<div className="w3-third">
+				<form className="w3-panel w3-border w3-center"
+					  action={"."}
+					  onSubmit={event => {
+						  event.preventDefault()
+						  createBusiness()
+					  }}>
+					<input className="w3-input w3-border"
+						   type={"text"}
+						   placeholder={"Business Name"}
+						   value={businessData.name}
+						   onChange={event => setBusinessData({
+							   ...businessData,
+							   name: event.target.value
+						   })}
+					/>
+					<input className="w3-input w3-border"
+						   type={"text"}
+						   placeholder={"Business Address"}
+						   value={businessData.address}
+						   onChange={event => setBusinessData({
+							   ...businessData,
+							   address: event.target.value
+						   })}
+					/>
+					<input className="w3-input w3-border"
+						   type={"text"}
+						   placeholder={"Business Website"}
+						   value={businessData.website}
+						   onChange={event => setBusinessData({
+							   ...businessData,
+							   website: event.target.value
+						   })}
+					/>
+					<input className="w3-input w3-border"
+						   type={"text"}
+						   placeholder={"Business Phone Number"}
+						   value={businessData.phone}
+						   onChange={event => setBusinessData({
+							   ...businessData,
+							   phone: event.target.value
+						   })}
+					/>
+					<input className="w3-input w3-border"
+						   type={"text"}
+						   placeholder={"Business Start Hours"}
+						   value={businessData.hourStart}
+						   onChange={event => setBusinessData({
+							   ...businessData,
+							   hourStart: parseInt(event.target.value)
+						   })}
+					/>
+					<input className="w3-input w3-border"
+						   type={"text"}
+						   placeholder={"Business End Hours"}
+						   value={businessData.hourEnd}
+						   onChange={event => setBusinessData({
+							   ...businessData,
+							   hourEnd: parseInt(event.target.value)
+						   })}
+					/>
+					<input className="w3-input w3-border"
+						   type={"text"}
+						   placeholder={"Business Category"}
+						   value={businessData.category}
+						   onChange={event => setBusinessData({
+							   ...businessData,
+							   category: event.target.value
+						   })}
+					/>
+					<textarea className="w3-input w3-border"
+						   placeholder={"Business Regulations"}
+						   value={businessData.regulations}
+						   onChange={event => setBusinessData({
+							   ...businessData,
+							   regulations: event.target.value
+						   })}
+					/>
+					<input className="w3-button w3-border"
+						   type={'submit'}
+						   value={"Register Business"}
+					/>
+				</form>
+			</div>
 			<div className='w3-panel w3-center'>
 				<h1 className="w3-text">
 					Welcome to the Local Business Tracker
