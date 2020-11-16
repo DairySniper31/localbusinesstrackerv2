@@ -7,9 +7,7 @@ import {API} from 'aws-amplify';
 
 import "./w3.css";
 
-import PlaceholderImg from "./placeholder.png";
 import PlaceholderStar from "./star5.png";
-import PlaceholderRating from "./rating5.png";
 
 import {listBusinesss} from "./graphql/queries";
 
@@ -56,7 +54,7 @@ function SearchList() {
                 return a.name.localeCompare(b.name)
             }));
         }
-        else if (query === "retail" || query === "other" || query === "food" || query === "salon") {
+        else if (query.includes("retail") || query.includes("other") || query.includes("food") || query.includes("salon")) {
             setSortedBiz(tempBiz.filter(business => business.category.toLowerCase() === query))
         }
         else {

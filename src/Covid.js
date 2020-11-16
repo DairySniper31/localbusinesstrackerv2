@@ -1,7 +1,16 @@
+/*
+COVID Page made in React
+Created by Kobe Oley
+
+Shows information about COVID and the symptoms
+ */
+
+//Imports
 import React from "react";
 
 import "./w3.css";
 
+//COVID function shows the HTML Block with the information
 function Covid() {
     return (
         <div className="w3-panel w3-text">

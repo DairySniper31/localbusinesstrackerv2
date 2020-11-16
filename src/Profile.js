@@ -3,7 +3,6 @@ Profile Page made in React
 Created by Kobe Oley
 
 The Profile page is to model the user's information, as well as display reviews made
-
  */
 
 //Imports
@@ -13,13 +12,16 @@ import {Link, Redirect} from "react-router-dom";
 import "./w3.css";
 
 import PlaceholderImg from "./placeholder.png";
-import PlaceholderRating from "./rating5.png";
 
-import {API, Storage} from 'aws-amplify';
-import {getUser, listReviews, listUsers} from "./graphql/queries";
+import {API} from 'aws-amplify';
+import {getUser, listReviews} from "./graphql/queries";
 import {updateUser} from "./graphql/mutations";
 
+/*
+Profile function, contains logic and return statement
+ */
 function Profile() {
+    //Variables
     const [currentUser, setCurrentUser] = useState({
         fname: '',
         lname: '',
@@ -30,10 +32,12 @@ function Profile() {
     });
     const [reviews, setReviews] = useState([])
 
+    //Logs the user out by removing the session storage attribute
     function logout() {
         sessionStorage.setItem('id', 'null');
     }
 
+    //Gets information from the API
     async function fetchUsers() {
         const userData = await API.graphql({query: getUser, variables: {id: sessionStorage.getItem('id')}})
         if (userData.data.getUser)
@@ -46,14 +50,17 @@ function Profile() {
         }
     }
 
+    //Updates the page
     useEffect(() => {
         fetchUsers()
     }, [])
 
+    //If the user isn't logged in, then they are redirected to the home page
     if (sessionStorage.getItem('id') == null || sessionStorage.getItem('id') === 'null'){
         return (<Redirect to={"/login"}/>)
     }
 
+    //Main HTML Block
     return (
         <div className="w3-row">
             <div className="w3-third">
@@ -108,6 +115,8 @@ function Profile() {
         </div>
     );
 }
+
+//Bio function shows the editing of the bio
 function Bio(props) {
     const [editBio, setEditBio] = useState(false);
     const [newBio, setNewBio] = useState('')

@@ -1,3 +1,11 @@
+/*
+Index Page made in React
+Created by Kobe Oley
+
+Gives the root to the HTML page
+ */
+
+//Imports
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

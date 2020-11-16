@@ -3,8 +3,6 @@ import {Link, Redirect, Route, useParams, useRouteMatch} from "react-router-dom"
 
 import "./w3.css";
 
-import PlaceholderImg from "./placeholder.png";
-import PlaceholderRating from "./rating5.png";
 import {API} from "aws-amplify";
 import {getUser, listReviews} from "./graphql/queries";
 

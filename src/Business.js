@@ -1,3 +1,12 @@
+/*
+Main SPA Page made in React
+Created by Kobe Oley
+
+Main App contains all of the other pages.
+Also creates the header that is used to navigate that program
+ */
+
+//Imports
 import React, {useEffect, useState} from "react";
 import {useParams, Route, Link, useRouteMatch} from "react-router-dom";
 
@@ -8,11 +17,11 @@ import "./Business.css"
 
 import PlaceholderImg from "./placeholder.png";
 import PlaceholderStar from "./star5.png";
-import PlaceholderRating from "./rating5.png";
 
-import {getBusiness, getUser, listBusinesss, listReviews} from "./graphql/queries";
+import {getBusiness, getUser, listReviews} from "./graphql/queries";
 import {createReview} from "./graphql/mutations";
 
+//Business function that moves the route to the business page
 function Business() {
     const {url} = useRouteMatch();
     return (
@@ -24,8 +33,14 @@ function Business() {
     );
 }
 
+/*
+Business Page that shows a specific business
+ */
 function BusinessPage() {
+    //Variable that is given from the url
     const {id} = useParams();
+
+    //Data about the business and the variables for the page
     const [businessData, setBusinessData] = useState({
         id: '',
         address: '',
@@ -43,6 +58,7 @@ function BusinessPage() {
     const [error, setError] = useState('')
     const [rating, setRating] = useState(0);
 
+    //Gets information about the variables above from the API
     async function fetchResources() {
         const reviewData = await API.graphql({query: listReviews});
         console.log(reviewData.data.listReviews.items.filter(review => review.businessID === id))
@@ -57,6 +73,8 @@ function BusinessPage() {
         }
     }
 
+    //Creates a review. The user must be logged in and the rating and text must be filled in
+    //Then this makes a new review and pushed it to the API
     async function createReviewSubmission() {
         if (sessionStorage.getItem('id') == null || sessionStorage.getItem('id') === 'null') {
             setError('You must login into an account in order to make reviews')
@@ -81,10 +99,12 @@ function BusinessPage() {
         }
     }
 
+    //Updates from user updates and component loading
     useEffect(() => {
         fetchResources();
     }, [])
 
+    //HTML Block for the business pages
     return (
         <div className="w3-row">
             <div className="w3-quarter">
@@ -187,26 +207,6 @@ function BusinessPage() {
             </div>
         </div>
     );
-}
-
-function Review(props) {
-    return (
-        <div className="w3-row-padding">
-            <div className="w3-quarter">
-                <Link to={'/profile'}>
-                    <img src={PlaceholderImg} className="w3-image" alt={'User profile pic'}/>
-                </Link>
-            </div>
-            <div className="w3-quarter">
-                <img src={props.ratesrc} className="w3-image" alt={'Rating of review'}/>
-            </div>
-            <div className="w3-half">
-                <p className="w3-text">
-                    {props.ratetext}
-                </p>
-            </div>
-        </div>
-    )
 }
 
 export default Business

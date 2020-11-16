@@ -1,3 +1,12 @@
+/*
+Main SPA Page made in React
+Created by Kobe Oley
+
+Main App contains all of the other pages.
+Also creates the header that is used to navigate that program
+ */
+
+//Imports
 import React, {useState, useEffect} from 'react';
 import {Link, Route, Switch} from "react-router-dom";
 
@@ -12,10 +21,16 @@ import User from "./User";
 
 import './w3.css';
 
+/*
+Main App function hat displays the other pages and header
+ */
 function App() {
+    //Variable to tell the header whether the user is logged in or not
     const [loginTab, setLoginTab] = useState('Login/Sign-up')
 
+    //Fetches info on whether the user is logged in
     async function fetchInfo() {
+        //If the key exists then the login tab is my profile. If not, it's login/sign up
         if (sessionStorage.getItem('id') != null && sessionStorage.getItem('id') !== 'null'){
             setLoginTab('My Profile')
         }
@@ -24,9 +39,12 @@ function App() {
         }
     }
 
+    //Updates teh page hen refreshed or component is shown
     useEffect(() => {
         fetchInfo()
     }, [])
+
+    //HTML block for the main app
     return (
         <div>
             <header className="w3-bar w3-large w3-white">

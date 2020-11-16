@@ -1,3 +1,12 @@
+/*
+Home Page made in React
+Created by Kobe Oley
+
+The home page in the application
+Contains a simple search query form for use
+ */
+
+//Imports
 import React, {useState} from "react";
 import {Redirect} from "react-router-dom";
 import {API} from 'aws-amplify';
@@ -5,7 +14,11 @@ import {createBusiness as createBusinessMutation} from "./graphql/mutations";
 
 import "./w3.css";
 
+/*
+Home function, contains logic and HTML block for the page
+ */
 function Home() {
+	//Variables to be used, business was used temporarily
 	const [query, setQuery] = useState('');
 	const [search, setSearch] = useState(false);
 	const [error, setError] = useState('');
@@ -21,10 +34,12 @@ function Home() {
 		regulations: ''
 	});
 
+	//Gets a random integer between 0 and 1085
 	function getRandomInt() {
 		return Math.floor(Math.random() * Math.floor(1085))
 	}
 
+	//Submits a search and redirects the user to the search page
 	function submitSearch() {
 		if (!query) {
 			setError('You must search a term')
@@ -37,105 +52,23 @@ function Home() {
 		}
 	}
 
+	//Creates a business using a form that was deleted
 	async function createBusiness() {
 		console.log(businessData)
 
 		await API.graphql({query: createBusinessMutation, variables: {input: businessData}})
 	}
 
+	//If the user has searched, then you are redirected to the search page
 	if (search) {
 		return (
 			<Redirect to={"/search/" + query} />
 		);
 	}
 
+	//Main HTML Block
 	return (
 		<div>
-			<div className="w3-third">
-				<form className="w3-panel w3-border w3-center"
-					  action={"."}
-					  onSubmit={event => {
-						  event.preventDefault()
-						  createBusiness()
-					  }}>
-					<input className="w3-input w3-border"
-						   type={"text"}
-						   placeholder={"Business Name"}
-						   value={businessData.name}
-						   onChange={event => setBusinessData({
-							   ...businessData,
-							   name: event.target.value,
-							   image: `https://picsum.photos/id/${getRandomInt()}/500`
-						   })}
-					/>
-					<input className="w3-input w3-border"
-						   type={"text"}
-						   placeholder={"Business Address"}
-						   value={businessData.address}
-						   onChange={event => setBusinessData({
-							   ...businessData,
-							   address: event.target.value
-						   })}
-					/>
-					<input className="w3-input w3-border"
-						   type={"text"}
-						   placeholder={"Business Website"}
-						   value={businessData.website}
-						   onChange={event => setBusinessData({
-							   ...businessData,
-							   website: event.target.value
-						   })}
-					/>
-					<input className="w3-input w3-border"
-						   type={"text"}
-						   placeholder={"Business Phone Number"}
-						   value={businessData.phone}
-						   onChange={event => setBusinessData({
-							   ...businessData,
-							   phone: event.target.value
-						   })}
-					/>
-					<input className="w3-input w3-border"
-						   type={"text"}
-						   placeholder={"Business Start Hours"}
-						   value={businessData.hourStart}
-						   onChange={event => setBusinessData({
-							   ...businessData,
-							   hourStart: parseInt(event.target.value)
-						   })}
-					/>
-					<input className="w3-input w3-border"
-						   type={"text"}
-						   placeholder={"Business End Hours"}
-						   value={businessData.hourEnd}
-						   onChange={event => setBusinessData({
-							   ...businessData,
-							   hourEnd: parseInt(event.target.value)
-						   })}
-					/>
-					<input className="w3-input w3-border"
-						   type={"text"}
-						   placeholder={"Business Category"}
-						   value={businessData.category}
-						   onChange={event => setBusinessData({
-							   ...businessData,
-							   category: event.target.value
-						   })}
-					/>
-					<textarea className="w3-input w3-border"
-						   placeholder={"Business Regulations"}
-						   value={businessData.regulations}
-						   onChange={event => setBusinessData({
-							   ...businessData,
-							   regulations: event.target.value
-						   })}
-					/>
-					<input className="w3-button w3-border"
-						   type={'submit'}
-						   value={"Register Business"}
-					/>
-				</form>
-			</div>
 			<div className='w3-panel w3-center'>
 				<h1 className="w3-text">
 					Welcome to the Local Business Tracker

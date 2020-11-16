@@ -16,6 +16,7 @@ import {API} from 'aws-amplify';
 import {listUsers} from "./graphql/queries";
 import {createUser as createUserMutation} from "./graphql/mutations";
 
+//URL to get the avatar for users
 const avatarURL = 'https://avatars.abstractapi.com/v1/?api_key=0d635c585cf94fb893f4497185d4486a&image_size=512&name=';
 
 /*
