@@ -15,7 +15,6 @@ function App() {
     const [loginTab, setLoginTab] = useState('Login/Sign-up')
 
     async function fetchInfo() {
-        console.log(sessionStorage.getItem('id'))
         if (sessionStorage.getItem('id') != null && sessionStorage.getItem('id') !== 'null'){
             setLoginTab('My Profile')
         }
@@ -48,22 +47,22 @@ function App() {
                 <div className="w3-dropdown-hover w3-mobile" style={{width: '20%'}}>
                     <button className="w3-button" style={{width: '100%'}}>Categories</button>
                     <div className="w3-dropdown-content w3-bar-block w3-card-4" style={{width: '20%'}}>
-                        <Link className="w3-bar-item w3-button w3-center"
-                              to="/search/retail">
+                        <a className="w3-bar-item w3-button w3-center"
+                              href="/search/retail">
                             Retail
-                        </Link>
-                        <Link className="w3-bar-item w3-button w3-center"
-                              to="/search/food">
+                        </a>
+                        <a className="w3-bar-item w3-button w3-center"
+                              href="/search/food">
                             Food
-                        </Link>
-                        <Link className="w3-bar-item w3-button w3-center"
-                              to="/search/salon">
+                        </a>
+                        <a className="w3-bar-item w3-button w3-center"
+                              href="/search/salon">
                             Salon
-                        </Link>
-                        <Link className="w3-bar-item w3-button w3-center"
-                              to="/search/other">
+                        </a>
+                        <a className="w3-bar-item w3-button w3-center"
+                              href="/search/other">
                             Other
-                        </Link>
+                        </a>
                     </div>
                 </div>
                 <Link className="w3-bar-item w3-button w3-mobile"

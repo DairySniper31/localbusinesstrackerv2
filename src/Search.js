@@ -13,6 +13,8 @@ import PlaceholderRating from "./rating5.png";
 
 import {listBusinesss} from "./graphql/queries";
 
+const levenshtein = require('js-levenshtein');
+
 function Search() {
     const {url} = useRouteMatch();
     return (
@@ -37,6 +39,8 @@ function Search() {
 function SearchList() {
     const {query} = useParams();
     const [businesses, setBusinesses] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(query)
+    const [sortedBiz, setSortedBiz] = useState([]);
 
     useEffect(() => {
         fetchBusinesses();
@@ -44,15 +48,47 @@ function SearchList() {
 
     async function fetchBusinesses() {
         const apiData = await API.graphql({query: listBusinesss});
-        setBusinesses(apiData.data.listBusinesss.items);
+        const tempBiz = apiData.data.listBusinesss.items;
+        setBusinesses(tempBiz);
+
+        if (!query || query === " "){
+            setSortedBiz(tempBiz.sort(function (a, b) {
+                return a.name.localeCompare(b.name)
+            }));
+        }
+        else if (query === "retail" || query === "other" || query === "food" || query === "salon") {
+            setSortedBiz(tempBiz.filter(business => business.category.toLowerCase() === query))
+        }
+        else {
+            setSortedBiz(tempBiz.sort(function (a,b) {
+                const firstWord = Math.max(a.name.length, query.length) - levenshtein(a.name.toLowerCase(), query.toLowerCase())
+                const secondWord = Math.max(b.name.length, query.length) - levenshtein(b.name.toLowerCase(), query.toLowerCase())
+                return secondWord - firstWord
+            }))
+        }
     }
 
     return (
         <div>
-            <h3 className='w3-text w3-panel'>Search Results for: {query}</h3>
+            <div className='w3-bar w3-container'>
+                <input type={'text'}
+                       className='w3-bar-item w3-input'
+                       value={searchTerm}
+                       onChange={event => setSearchTerm(event.target.value)}
+                       required pattern="[a-zA-Z0-9]+"
+                       title="Must be alphanumeric"
+                       style={{width: '80%'}}
+                />
+                <a href={`/search/${searchTerm}`}
+                      className='w3-bar-item w3-button w3-green'
+                      style={{textDecoration: 'none'}}>
+                    Search
+                </a>
+            </div>
+            <h3 className='w3-text w3-panel' >Search Results for: {query}</h3>
             <div className="w3-bar-block">
                 {
-                    businesses.map(business => (
+                    sortedBiz.map(business => (
                         <div key={business.name} className='w3-bar-item'>
                             <div className='w3-twothird w3-border-top w3-border-left w3-border-black'>
                                 <h3 className='w3-text w3-container'>
