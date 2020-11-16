@@ -88,6 +88,8 @@ export const getReview = /* GraphQL */ `
       businessID
       userID
       rating
+      userImage
+      businessImage
       description
       createdAt
       updatedAt
@@ -106,6 +108,8 @@ export const listReviews = /* GraphQL */ `
         businessID
         userID
         rating
+        userImage
+        businessImage
         description
         createdAt
         updatedAt

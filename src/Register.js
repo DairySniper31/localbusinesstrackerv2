@@ -84,7 +84,6 @@ function Register() {
         }
         //Creates the user in the API and database
         else{
-            console.log(userFormData.image)
             //Uses the createUserMutation to create the user using userFormData
             await API.graphql({query: createUserMutation, variables: {input: userFormData}})
             //Adds the formData to the users

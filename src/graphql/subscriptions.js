@@ -107,6 +107,8 @@ export const onCreateReview = /* GraphQL */ `
       businessID
       userID
       rating
+      userImage
+      businessImage
       description
       createdAt
       updatedAt
@@ -120,6 +122,8 @@ export const onUpdateReview = /* GraphQL */ `
       businessID
       userID
       rating
+      userImage
+      businessImage
       description
       createdAt
       updatedAt
@@ -133,6 +137,8 @@ export const onDeleteReview = /* GraphQL */ `
       businessID
       userID
       rating
+      userImage
+      businessImage
       description
       createdAt
       updatedAt

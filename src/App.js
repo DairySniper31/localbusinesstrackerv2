@@ -8,6 +8,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Profile from "./Profile";
 import Business from "./Business";
+import User from "./User";
 
 import './w3.css';
 
@@ -80,6 +81,7 @@ function App() {
                     <Route path="/register"><Register/></Route>
                     <Route path="/profile"><Profile/></Route>
                     <Route path="/business"><Business/></Route>
+                    <Route path="/user"><User/></Route>
                 </Switch>
             </div>
         </div>

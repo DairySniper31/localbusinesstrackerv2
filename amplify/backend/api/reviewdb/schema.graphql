@@ -24,5 +24,7 @@ type Review @model {
   businessID: String!
   userID: String!
   rating: Int!
+  userImage: String!
+  businessImage: String!
   description: String
 }

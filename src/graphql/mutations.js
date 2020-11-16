@@ -128,6 +128,8 @@ export const createReview = /* GraphQL */ `
       businessID
       userID
       rating
+      userImage
+      businessImage
       description
       createdAt
       updatedAt
@@ -144,6 +146,8 @@ export const updateReview = /* GraphQL */ `
       businessID
       userID
       rating
+      userImage
+      businessImage
       description
       createdAt
       updatedAt
@@ -160,6 +164,8 @@ export const deleteReview = /* GraphQL */ `
       businessID
       userID
       rating
+      userImage
+      businessImage
       description
       createdAt
       updatedAt
