@@ -16,7 +16,7 @@ import PlaceholderImg from "./placeholder.png";
 import PlaceholderRating from "./rating5.png";
 
 import {API, Storage} from 'aws-amplify';
-import {getUser, listUsers} from "./graphql/queries";
+import {getUser, listReviews, listUsers} from "./graphql/queries";
 import {updateUser} from "./graphql/mutations";
 
 function Profile() {
@@ -28,6 +28,7 @@ function Profile() {
         bio: '',
         image: PlaceholderImg
     });
+    const [reviews, setReviews] = useState([])
 
     function logout() {
         sessionStorage.setItem('id', 'null');
@@ -37,6 +38,12 @@ function Profile() {
         const userData = await API.graphql({query: getUser, variables: {id: sessionStorage.getItem('id')}})
         if (userData.data.getUser)
             setCurrentUser(userData.data.getUser)
+
+        const reviewData = await API.graphql({query: listReviews});
+        if (reviewData.data) {
+            const allReviews = reviewData.data.listReviews.items
+            setReviews(allReviews.filter(review => review.userID === sessionStorage.getItem("id")))
+        }
     }
 
     useEffect(() => {
@@ -56,7 +63,7 @@ function Profile() {
                 <img src={currentUser.image} className="w3-panel w3-image" alt={"User Avatar"}/>
                 <div className="w3-panel w3-text w3-light-gray">
                     <h4>User Info:</h4>
-                    <p>Total Reviews: 4</p>
+                    <p>Total Reviews: {reviews.length}</p>
                     <Bio bio={currentUser.bio}/>
                 </div>
 
@@ -65,28 +72,29 @@ function Profile() {
                 <h2 className="w3-container w3-text">
                     Reviews:
                 </h2>
-                <Review  name={'sundaes'}
-                         imgsrc={PlaceholderImg}
-                         ratesrc={PlaceholderRating}
-                         ratetext={'User123 Rating:' +
-                         'This local has the best homemade ice cream and very nice workers.' +
-                         '10/10 would recommend checking it out'}
-                />
-                <Review name={'gales'}
-                        imgsrc={PlaceholderImg}
-                        ratesrc={PlaceholderRating}
-                        ratetext={"User123 Rating: " +
-                        "Of all the local shops, I wouldn't make this one my first choice. " +
-                        "It used to be a lot better!"}
-                />
-                <Review name={'smiling'}
-                        imgsrc={PlaceholderImg}
-                        ratesrc={PlaceholderRating}
-                        ratetext={"User123 Rating: " +
-                        "This local shop has okay homemade ice cream, but the workers are kind!"}
-                />
+                <div className='w3-bar-block'>
+                    {
+                        reviews.map(review => (
+                            <div key={review.rating} className='w3-bar-item w3-panel'>
+                                <div className="w3-quarter">
+                                    <Link to={`/business/${review.businessID}`}>
+                                        <img src={review.businessImage} className="w3-image" alt={'User profile pic'}/>
+                                    </Link>
+                                </div>
+                                <div className="w3-quarter w3-xxlarge">
+                                    {review.rating}/5
+                                </div>
+                                <div className="w3-half">
+                                    <p className="w3-text">
+                                        {review.description}
+                                    </p>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
             </div>
-            <div className="w3-rest">
+            <div className="w3-rest w3-panel">
                 <button className="w3-button w3-border w3-blue"
                 >
                     <Link to="/login"
@@ -165,26 +173,6 @@ function Bio(props) {
             </form>
         );
     }
-}
-
-function Review(props) {
-    return (
-        <div className="w3-row-padding">
-            <div className="w3-quarter">
-                <Link to={'/business/' + props.name + ''}>
-                    <img src={props.imgsrc} className="w3-image" alt={'Business logo'}/>
-                </Link>
-            </div>
-            <div className="w3-quarter">
-                <img src={props.ratesrc} className="w3-image" alt={'Review Rating'}/>
-            </div>
-            <div className="w3-half">
-                <p className="w3-text">
-                    {props.ratetext}
-                </p>
-            </div>
-        </div>
-    )
 }
 
 export default Profile;

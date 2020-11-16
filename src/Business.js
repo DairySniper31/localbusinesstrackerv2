@@ -166,7 +166,7 @@ function BusinessPage() {
                 <div className='w3-bar-block'>
                     {
                         reviews.map(review => (
-                            <div key={review.rating} className='w3-bar-item'>
+                            <div key={review.rating} className='w3-bar-item w3-panel'>
                                 <div className="w3-quarter">
                                     <Link to={`/user/${review.userID}`}>
                                         <img src={review.userImage} className="w3-image" alt={'User profile pic'}/>
